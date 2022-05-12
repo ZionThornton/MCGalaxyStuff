@@ -16,15 +16,16 @@ namespace MCGalaxy
             string[] args = message.SplitSpaces();
 
             
-            Command.Find("cuboid").Use(null, "1");
-            Command.Find("mark").Use(null, args[0] + " " + args[4] + " " + args[1]);
-            Command.Find("mark").Use(null, args[2] + " " + args[4] + " " + args[3]);
+            Command.Find("cuboid").Use(p, "1");
+            Command.Find("mark").Use(p, args[0] + " " + args[4] + " " + args[1]);
+            Command.Find("mark").Use(p, args[2] + " " + args[4] + " " + args[3]);
         
         }
         public override void Help(Player p) {
 
-            p.Message("%T/RNG [min] [max], /rng [min] [max]");
-            p.Message("%HGenerates a random number between [min] and [max]");
+            p.Message("%T/Create [StartX] [StartY] [StartZ] [EndX] [EndY] [EndZ]");
+            p.Message("%HGenerates a Cuboid that automatically places a mark");
+	    p.Message("depending on [StartX] [StartY] [StartZ] [EndX] [EndY] [EndZ]");
         }
 
     }
