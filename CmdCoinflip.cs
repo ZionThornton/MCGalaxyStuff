@@ -43,7 +43,7 @@ namespace MCGalaxy
 
 			p.SetMoney(p.money - 2); // We want to take the money ONLY after all checks have been completed else player will get scammed
 
-			Random random = new random(); // Initialize random so we can use it for our 'index' variable
+			Random random = new Random(); // Initialize random so we can use it for our 'index' variable
 			string[] outcomes = new string[] { "heads", "tails" };
 
 			int index = random.Next(outcomes.Length); // Choose a random index from our 'outcomes' array
