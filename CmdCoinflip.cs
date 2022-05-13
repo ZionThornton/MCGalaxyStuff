@@ -3,70 +3,67 @@ using System;
 
 namespace MCGalaxy
 {
-
-
-    public sealed class CmdCoinflip : Command
-    {
-        public override string name { get { return "Coinflip"; } }
+	public sealed class CmdCoinflip : Command
+	{
+		public override string name { get { return "Coinflip"; } }
 		public override string shortcut { get { return "cf"; } }
 		public override string type { get { return "other"; } }
 		public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
 
-        public override void Use(Player p, string message)
-        {
-            string[] args = message.SplitSpaces(0);
-            Random coin = new Random();
-            
-            if(p.money < 2)
-            {
-                p.Message("%fYou do not have enough money to use /coinflip");
-            }
-            
+		public override void Use(Player p, string message)
+		{
+			string[] args = message.SplitSpaces(0);
 
+			// Check to see if player is a broke boy
+			if (p.money < 2)
+			{
+				p.Message("%fYou do not have enough money to use /coinflip");
+				return; // Use return here so the code stops
+			}
 
-            else 
-            {  
-                p.SetMoney(p.money - 2); // Payment for the command
+			// Check to see if player has input anything after the command
+			// E.g, /coinflip heads
+			// If nothing is specified, args.Length will be 0 and we want to cancel the command
+			if (args.Length == 0)
+			{
+				p.Message("%fPlease specify either 'heads' or 'tails'");
+				return;
+			}
 
-                if (args[0] != "heads" || args[0] != "tails" || args[0] != "up" || args[0] != "down" || args[0] == null)
-                    p.Message("%fPlease use a valid input. Check %b/help Coinflip%f for more info.");
+			string chosen = args[0].ToLower(); // Optional, but neater
 
-                else
-                    coin.Next(1, 2);
-                    int flip = coin;
-                    if (coin == 1)
-                    {
-                        if (args[0] == "heads" || args[0] == "up")
-                        {
-                            p.SetMoney(p.money + 5);
-                        
-                        }
+			// Use .ToLower() to fix case-sensitive input. E.g, if player types /coinflip HeAds, it will be converted to /coinflip heads
 
-                        else
-                        {
-                            p.Message("%fThe coin landed on tails. You gained no money.");
-                        }
-                    }
+			// Check to see if player's input DOESN'T contain heads or tails, return if so
+			if (chosen != "heads" && chosen != "tails")
+			{
+				p.Message("%fPlease specify either 'heads' or 'tails'");
+				return;
+			}
 
-                    if (coin == 2)
-                    {
-                        if (args[0] == "tails" || args[0] == "down")
-                        {
-                            p.SetMoney(p.money + 5);
-                        }   
+			p.SetMoney(p.money - 2); // We want to take the money ONLY after all checks have been completed else player will get scammed
 
-                        else
-                        {
-                            p.Message("%fThe coin landed on heads. You gained no money.");
-                        }
-                    }
-            }
-        }
-        public override void Help(Player p) {
+			Random random = new random(); // Initialize random so we can use it for our 'index' variable
+			string[] outcomes = new string[] { "heads", "tails" };
 
-            p.Message("%T/Coinflip {heads, tails, up, down}, /coinflip {heads, tails, up, down}");
-            p.Message("%HFlips a coin. Ensure that lowercase is used.");
-        }
-    }
+			int index = random.Next(outcomes.Length); // Choose a random index from our 'outcomes' array
+			string outcome = outcomes[index]; // Turn the indexed outcome into a string
+
+			p.Message("The coin landed on " + outcome); // Tell player the outcome
+
+			// If player's input matches the outcome, give them some schmackeroos
+			if (chosen == outcome)
+			{
+				p.Message("You gained 5 schmackeroos for winning.");
+				p.SetMoney(p.money + 5); // Give schmackeroos to player
+			}
+		}
+
+		public override void Help(Player p)
+		{
+			p.Message("%T/Coinflip {heads, tails, up, down}, /coinflip {heads, tails, up, down}");
+			p.Message("%HFlips a coin. Ensure that lowercase is used.");
+		}
+	}
 
 }
