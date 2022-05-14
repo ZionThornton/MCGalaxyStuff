@@ -12,12 +12,12 @@ namespace MCGalaxy
 
 		public override void Use(Player p, string message)
 		{
-			string[] args = message.SplitSpaces(0);
+			string[] args = message.SplitSpaces();
 
 			// Check to see if player is a broke boy
 			if (p.money < 2)
 			{
-				p.Message("%fYou do not have enough money to use /coinflip");
+				p.Message("%SYou do not have enough money to use %T/coinflip");
 				return; // Use return here so the code stops
 			}
 
@@ -26,7 +26,7 @@ namespace MCGalaxy
 			// If nothing is specified, args.Length will be 0 and we want to cancel the command
 			if (args.Length == 0)
 			{
-				p.Message("%fPlease specify either 'heads' or 'tails'");
+				p.Message("%SPlease specify either %Theads %Sor %Ttails");
 				return;
 			}
 
@@ -37,7 +37,7 @@ namespace MCGalaxy
 			// Check to see if player's input DOESN'T contain heads or tails, return if so
 			if (chosen != "heads" && chosen != "tails")
 			{
-				p.Message("%fPlease specify either 'heads' or 'tails'");
+				p.Message("%SPlease specify either %Theads %Sor %Ttails");
 				return;
 			}
 
@@ -54,15 +54,15 @@ namespace MCGalaxy
 			// If player's input matches the outcome, give them some schmackeroos
 			if (chosen == outcome)
 			{
-				p.Message("You gained 5 schmackeroos for winning.");
+				p.Message("%SYou gained %b5 %TChips %Sfor winning.");
 				p.SetMoney(p.money + 5); // Give schmackeroos to player
 			}
 		}
 
 		public override void Help(Player p)
 		{
-			p.Message("%T/Coinflip {heads, tails, up, down}, /coinflip {heads, tails, up, down}");
-			p.Message("%HFlips a coin. Ensure that lowercase is used.");
+			p.Message("%T/Coinflip [Heads/Tails]");
+			p.Message("%T/COinflip - Flip a coin for a chance to win Chips");
 		}
 	}
 
