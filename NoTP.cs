@@ -31,7 +31,7 @@ namespace PluginNoTP
 			if (!(cmd == "tp" || cmd == "teleport" || cmd == "tpa" || cmd == "spawn")) return;
 			
 			if (OnGameMap(p.level.name)) {
-				p.Message("%cTp has been disabled on this server.");
+				p.Message("%cYou cannot TP to %aCasino %cMaps.");
 				p.cancelcommand = true;
 				return;
 			}
@@ -50,7 +50,7 @@ namespace PluginNoTP
 			}
 			
 			if (OnGameMap(who.level.name)) {
-				p.Message("%cTp has been disabled on this server.");
+				p.Message("%cYou cannot TP to %3players %con %aCasino %cMaps.");
 				p.cancelcommand = true;
 				return;
 			}
